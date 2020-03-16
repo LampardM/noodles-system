@@ -97,7 +97,7 @@ exports.view = {
  * @type {Object}
  */
 exports.logger = {
-  // type: isDev ? "dateFile" : "dateFile",
+  // type: isDev ? "console" : "dateFile",
   type: "dateFile", // note 生产测试都生成日志文件
   console: {
     handle: Console
