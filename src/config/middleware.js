@@ -1,40 +1,50 @@
-const path = require('path');
-const isDev = think.env === 'development';
+const path = require("path");
+const isDev = think.env === "development";
 
 module.exports = [
   {
-    handle: 'meta',
+    handle: "meta",
     options: {
       logRequest: isDev,
       sendResponseTime: isDev
     }
   },
   {
-    handle: 'resource',
+    handle: "resource",
     enable: isDev,
     options: {
-      root: path.join(think.ROOT_PATH, 'www'),
+      root: path.join(think.ROOT_PATH, "www"),
       publicPath: /^\/(static|favicon\.ico)/
     }
   },
   {
-    handle: 'trace',
+    handle: "trace",
     enable: !think.isCli,
     options: {
       debug: isDev
     }
   },
   {
-    handle: 'payload',
+    handle: "payload",
     options: {
       keepExtensions: true,
-      limit: '5mb'
+      limit: "5mb"
     }
   },
   {
-    handle: 'router',
-    options: {}
+    handle: "router",
+    options: {
+      defaultModule: "",
+      defaultController: "index",
+      defaultAction: "index",
+      prefix: [],
+      suffix: [".html"],
+      enableDefaultRouter: true,
+      subdomainOffset: 2,
+      subdomain: {},
+      denyModules: []
+    }
   },
-  'logic',
-  'controller'
+  "logic",
+  "controller"
 ];
