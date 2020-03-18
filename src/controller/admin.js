@@ -3,7 +3,7 @@
  * @Author: longzhang6
  * @Date: 2020-03-14 18:38:27
  * @LastEditors: longzhang6
- * @LastEditTime: 2020-03-16 22:34:00
+ * @LastEditTime: 2020-03-18 22:24:50
  */
 const Base = require("./base.js");
 
@@ -13,10 +13,16 @@ module.exports = class extends Base {
   }
   // * 登录
   async loginAction() {
-    let info = await think.mongo("admin/user").getAdminUserInfo();
-    console.log("admin userInfo", info);
-    this.session("userid", info.id);
+    let { username, password } = this.post();
+    let userInfo = await think.mongo("admin/user").getAdminUserInfo();
+    if (userInfo.name === username && userInfo.password === password) {
+      this.session("userid", userInfo.id);
+      return this.success({}, "SUCCESS");
+    } else {
+      return this.fail(1001, "用户名或者密码错误");
+    }
   }
+  userInfoAction() {}
   // * 登出
   logoutAction() {
     this.session(null);

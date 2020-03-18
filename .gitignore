@@ -33,6 +33,7 @@ output.tar.gz
 
 runtime/
 app/
+www/
 
 config.development.js
 adapter.development.js
