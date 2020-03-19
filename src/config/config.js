@@ -4,9 +4,10 @@ module.exports = {
   cookie: {
     domain: "",
     path: "/",
-    maxAge: 10 * 3600 * 1000, // 10个小时
+    // maxAge: '', // note 若是file则此不生效，以file的maxAge为准
     signed: true,
-    keys: [] // 当 signed 为 true 时，使用 keygrip 库加密时的密钥
+    httpOnly: true,
+    keys: ["signature key"] // 当 signed 为 true 时，使用 keygrip 库加密时的密钥
   },
   errnoField: "code", // errno field
   errmsgField: "message" // errmsg field

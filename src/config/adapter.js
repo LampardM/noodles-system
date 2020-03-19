@@ -57,7 +57,7 @@ exports.session = {
     cookie: {
       name: "noodles",
       keys: ["signature key"],
-      //maxAge: '',
+      // maxAge: '', // note 若是file则此不生效，以file的maxAge为准
       //expires: '',
       path: "/", //a string indicating the path of the cookie
       //domain: '',
@@ -71,7 +71,7 @@ exports.session = {
   file: {
     handle: fileSession,
     sessionPath: path.join(think.ROOT_PATH, "runtime/session"),
-    maxAge: "1d", //session timeout, default is 1 day
+    maxAge: 10000, //session timeout, default is 30 mins
     autoUpdate: true //update expires time when get session, default is false
   }
 };
