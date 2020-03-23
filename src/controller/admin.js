@@ -3,11 +3,23 @@
  * @Author: longzhang6
  * @Date: 2020-03-14 18:38:27
  * @LastEditors: longzhang6
- * @LastEditTime: 2020-03-19 23:05:28
+ * @LastEditTime: 2020-03-23 22:43:28
  */
 const Base = require("./base.js");
 
 module.exports = class extends Base {
+  async __before() {
+    let whitelist = ["/admin/login"],
+      exitSessionInfo = await this.session("userInfo"); // note 即便是获取session时也会给客户端设置cookie
+
+    if (whitelist.includes(this.ctx.url)) {
+      console.log("白名单------login");
+    } else {
+      if (think.isEmpty(exitSessionInfo)) {
+        return false;
+      }
+    }
+  }
   indexAction() {
     return this.display();
   }
@@ -16,18 +28,18 @@ module.exports = class extends Base {
     let { username, password } = this.post();
     let userInfo = await think.mongo("admin/user").getAdminUserInfo();
     if (userInfo.name === username && userInfo.password === password) {
-      this.session("userid", userInfo.id);
+      this.session("userInfo", userInfo);
       return this.success({}, "SUCCESS");
     } else {
       return this.fail(1001, "用户名或者密码错误");
     }
   }
   async userInfoAction() {
-    let sessionInfo = await this.session("userid"); // note 即便是获取session时也会给客户端设置cookie
-    let sessionInfo2 = await this.cookie("noodles");
-    console.log("sessionInfo", sessionInfo);
-    console.log("sessionInfo2", sessionInfo2);
-    return this.success();
+    let exitSessionInfo = await this.session("userInfo"); // note 即便是获取session时也会给客户端设置cookie
+    // sessionInfo2 = await this.cookie("noodles");
+    console.log("sessionInfo", exitSessionInfo);
+    // console.log("sessionInfo2", sessionInfo2);
+    return this.success(exitSessionInfo, "SUCCESS");
   }
   // * 登出
   logoutAction() {
